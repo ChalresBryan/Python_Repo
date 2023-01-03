@@ -14,26 +14,28 @@ print(" ")
 def findClosestValueInBst(tree, target):
     # Write your code here.
     closest_value = None
-    smallest_abs_difference = None
-    current = tree
+    smallest_abs_difference = 1000000
+    abs_difference = 0
+    current_node = tree
 
-    while current is not None:
+    while current_node is not None:
 
-        if current.value == target:
-            closest_value = current.value
+        if current_node.value == target:
+            closest_value = current_node.value
             break
+        
+        abs_difference = abs(current_node.value - target)
+        
+        if abs_difference < smallest_abs_difference:
+            smallest_abs_difference = abs_difference
+            closest_value = current_node.value
+        
 
-        if target < current.value:
-            if smallest_abs_difference > abs(current.value - target):
-                closest_value = current.value
-
-            current = current.left
+        if target < current_node.value:
+            current_node = current_node.left
 
         else:
-            if smallest_abs_difference > abs(current.value - target):
-                closest_value = current.value
-
-            current = current.right
+            current_node = current_node.right
 
     return closest_value
 

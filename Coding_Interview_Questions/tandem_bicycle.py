@@ -6,30 +6,39 @@
 # pylint: disable=C0115
 print(" ")
 
-a = [1, 
-     3, 
-     5, 1, 4, 
-     6, 2, 4]
+# faster pedaler determine the speed of the bicycle
 
-q = int(input())
-n = int(input())
-dmoj = list(map(lambda x: int(x), input().split(" ")))
-peg = list(map(lambda x: int(x), input().split(" ")))
+# given two same length arrays of postive integers
+# pair integers with the largest differences together and then increment the speed with the max or min 
 
-speed = 0
-dmoj.sort() # min - max
-peg.sort() # min - max
-if q == 1:
-    # min total speed
-    for i in range(n):
-        speed += max(dmoj[i], peg[i])
+def tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest):
+    team_size = len(redShirtSpeeds)
+    max_speed = 0
+    min_speed = 0
+    redShirtSpeeds.sort()
+    blueShirtSpeeds.sort(reverse=True)
 
-else:
-    # max total speed
-    dmoj = dmoj[::-1]
-    for i in range(n):
-        speed += max(dmoj[i], peg[i])
+    print(redShirtSpeeds)
+    print(blueShirtSpeeds)
 
-print(speed)
+    if fastest is True:
+        for idx in range(team_size):
+            print(max(redShirtSpeeds[idx], blueShirtSpeeds[idx]))
+            max_speed += max(redShirtSpeeds[idx], blueShirtSpeeds[idx])
+        
+        return max_speed
+
+    else:
+        for idx in range(team_size):
+            blueShirtSpeeds.sort()
+            print(max(redShirtSpeeds[idx], blueShirtSpeeds[idx]))
+            min_speed += max(redShirtSpeeds[idx], blueShirtSpeeds[idx])
+        
+        return min_speed
+
+redShirtSpeeds = [5, 5, 3, 9, 2]
+blueShirtSpeeds = [3, 6, 7, 2, 1]
+fastest = False
+print("Speed:",tandemBicycle(redShirtSpeeds,blueShirtSpeeds,fastest))
 
 print(" ")
