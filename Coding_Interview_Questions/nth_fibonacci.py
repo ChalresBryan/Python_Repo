@@ -34,7 +34,6 @@ def getNthFib1(n, memoize={1: 0, 2: 1}):
     print(F"F({n})")
 
     if n in memoize:
-        print(F"F({n}) = {memoize}")
         return memoize[n]
 
     else:
