@@ -1,4 +1,4 @@
-'''caesar_cipher_encryptor.py'''
+'''first_non_repeating_character.py'''
 # pylint: disable=E1101
 # pylint: disable=C0103
 # pylint: disable=E1101
@@ -16,17 +16,17 @@ print(" ")
     3. Check for no params/empty, 0, undefined, null, massive arrays, async code
     4. Define what/if assumptions can be made about the code
 
-given
--a non empty string of lowercase characters
-and
--a non negative integer represeting a key
+given:
+- a string of lowercase english characters
 
-return a new string
--shift every character "k" postions
+return:
+- the index of the given string's first non repeating character
+
+goal:
+-find the first character in the string that occurs only once
 
 note:
-characters should wrap if they pass z
-
+- return -1 if the given string does not have any non repeating characters
 
 2. What is more valuable? Time or Space?
 
@@ -58,42 +58,43 @@ characters should wrap if they pass z
             2. write the output back to disk and combine them later.
 '''
 
-# Time: O(n) | # Space: O(n)
-
-
-def caesarCipherEncryptor(string, key):
-    shifted_string = ''
-    first_char_Unicode = ord("a")
-    last_char_Unicode = ord("z")
-    key = key % 26
-    wrap_char = last_char_Unicode - first_char_Unicode + 1
+# Time: O(n) | # Space: O(1)
+def firstNonRepeatingCharacter(string):
+    string_length = len(string)
+    char_count = {}
 
     for char in string:
-        if ord(char) + key > last_char_Unicode:
-            shifted_char = ord(char) + key - wrap_char
-            shifted_string += chr(shifted_char)
-        else:
-            shifted_char = ord(char) + key
-            shifted_string += chr(shifted_char)
+        char_count[char] = char_count.get(char, 0) + 1
 
-    return shifted_string
+    for idx in range(string_length):
+        char = string[idx]
+
+        if char_count[char] == 1:
+            return idx
+
+    return -1
+
+# _recursion
+# _iteration
 
 
-string1 = "xyz"
-key1 = 2
-print(F"String1: {string1}")
-print(F"key1: {key1}")
-print("after:", caesarCipherEncryptor(string1, key1))
+string1 = "abcdcaf"
+string2 = "faadabcbbebdf"
+string3 = "ababac"
+string4 = "a"
+string5 = ""
+print("string1:", string1)
+print("firstNonRepeatingCharacter:", firstNonRepeatingCharacter(string1))
 print(" ")
-string2 = "abc"
-key2 = 0
-print(F"String2: {string2}")
-print(F"key2: {key2}")
-print("after:", caesarCipherEncryptor(string2, key2))
+print("string2:", string2)
+print("firstNonRepeatingCharacter:", firstNonRepeatingCharacter(string2))
 print(" ")
-string3 = "abc"
-key3 = 3
-print(F"string3: {string3}")
-print(F"key3: {key1}")
-print("after:", caesarCipherEncryptor(string3, key3))
+print("string3:", string3)
+print("firstNonRepeatingCharacter:", firstNonRepeatingCharacter(string3))
+print(" ")
+print("string4:", string4)
+print("firstNonRepeatingCharacter:", firstNonRepeatingCharacter(string4))
+print(" ")
+print("string5:", string5)
+print("firstNonRepeatingCharacter:", firstNonRepeatingCharacter(string5))
 print(" ")

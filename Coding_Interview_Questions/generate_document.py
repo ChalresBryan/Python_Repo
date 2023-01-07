@@ -1,4 +1,4 @@
-'''caesar_cipher_encryptor.py'''
+'''file_name'''
 # pylint: disable=E1101
 # pylint: disable=C0103
 # pylint: disable=E1101
@@ -16,17 +16,17 @@ print(" ")
     3. Check for no params/empty, 0, undefined, null, massive arrays, async code
     4. Define what/if assumptions can be made about the code
 
-given
--a non empty string of lowercase characters
-and
--a non negative integer represeting a key
+givens:
+-a string of available characters
+-a string of the document that needs to be generated
 
-return a new string
--shift every character "k" postions
+return boolen True if you can create the document using the available characters
+return boolen False if you can not create the document using the avaiable characters
 
-note:
-characters should wrap if they pass z
-
+Note:
+-if the frequency of unique characters matters
+-all characters can be inside the input
+-empty string can always be generated
 
 2. What is more valuable? Time or Space?
 
@@ -58,42 +58,43 @@ characters should wrap if they pass z
             2. write the output back to disk and combine them later.
 '''
 
-# Time: O(n) | # Space: O(n)
 
+# Time: O(n + m) | # Space: O(n)
+def generateDocument(characters, document):
+    if document == "":
+        return True
 
-def caesarCipherEncryptor(string, key):
-    shifted_string = ''
-    first_char_Unicode = ord("a")
-    last_char_Unicode = ord("z")
-    key = key % 26
-    wrap_char = last_char_Unicode - first_char_Unicode + 1
+    available_chars = {}
 
-    for char in string:
-        if ord(char) + key > last_char_Unicode:
-            shifted_char = ord(char) + key - wrap_char
-            shifted_string += chr(shifted_char)
+    for char in characters:
+        if char in available_chars:
+            available_chars[char] += 1
         else:
-            shifted_char = ord(char) + key
-            shifted_string += chr(shifted_char)
+            available_chars[char] = 1
 
-    return shifted_string
+    print(available_chars)
+
+    for char in document:
+        if char in available_chars:
+            available_chars[char] -= 1
+            if available_chars.get(char) < 0:
+                return False
+        else:
+            print(available_chars)
+            return False
+
+    return True
 
 
-string1 = "xyz"
-key1 = 2
-print(F"String1: {string1}")
-print(F"key1: {key1}")
-print("after:", caesarCipherEncryptor(string1, key1))
+characters1 = "Bste!hetsi ogEAxpelrt x "
+document1 = "AlgoExpert is the Best!"
+print(generateDocument(characters1, document1))
 print(" ")
-string2 = "abc"
-key2 = 0
-print(F"String2: {string2}")
-print(F"key2: {key2}")
-print("after:", caesarCipherEncryptor(string2, key2))
+characters2 = "aheaolabbhb"
+document2 = "hello"
+print(generateDocument(characters2, document2))
 print(" ")
-string3 = "abc"
-key3 = 3
-print(F"string3: {string3}")
-print(F"key3: {key1}")
-print("after:", caesarCipherEncryptor(string3, key3))
+
+# _recursion
+# _iteration
 print(" ")

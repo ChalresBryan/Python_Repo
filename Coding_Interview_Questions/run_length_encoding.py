@@ -1,4 +1,4 @@
-'''caesar_cipher_encryptor.py'''
+'''run_length_encoding.py'''
 # pylint: disable=E1101
 # pylint: disable=C0103
 # pylint: disable=E1101
@@ -16,17 +16,17 @@ print(" ")
     3. Check for no params/empty, 0, undefined, null, massive arrays, async code
     4. Define what/if assumptions can be made about the code
 
-given
--a non empty string of lowercase characters
-and
--a non negative integer represeting a key
+given:
+non empty string
 
-return a new string
--shift every character "k" postions
+return the given string's run length encoding
 
-note:
-characters should wrap if they pass z
+Note:
+-special characters
+-numbers
 
+Ex1. AAA ---> 3A
+Ex2. AAAAAAAAAAAA ---> 9A93
 
 2. What is more valuable? Time or Space?
 
@@ -61,39 +61,47 @@ characters should wrap if they pass z
 # Time: O(n) | # Space: O(n)
 
 
-def caesarCipherEncryptor(string, key):
-    shifted_string = ''
-    first_char_Unicode = ord("a")
-    last_char_Unicode = ord("z")
-    key = key % 26
-    wrap_char = last_char_Unicode - first_char_Unicode + 1
+def runLengthEncoding(string):
+    string_length = len(string)
+    encoded_string = ""
+    current_char_count = 1
 
-    for char in string:
-        if ord(char) + key > last_char_Unicode:
-            shifted_char = ord(char) + key - wrap_char
-            shifted_string += chr(shifted_char)
-        else:
-            shifted_char = ord(char) + key
-            shifted_string += chr(shifted_char)
+    for idx in range(1, string_length):
+        current_char = string[idx]
+        last_char = string[idx - 1]
 
-    return shifted_string
+        if current_char != last_char or current_char_count == 9:
+            encoded_string += str(current_char_count)
+            encoded_string += last_char
+            current_char_count = 0
+
+        current_char_count += 1
+
+    encoded_string += str(current_char_count)
+    encoded_string += string[string_length-1]
+
+    return encoded_string
 
 
-string1 = "xyz"
-key1 = 2
-print(F"String1: {string1}")
-print(F"key1: {key1}")
-print("after:", caesarCipherEncryptor(string1, key1))
+string1 = "AAAAAAAAAAAAABBCCCCDD"
+string2 = "aA"
+string3 = "122333"
+string4 = "************^^^^^^^$$$$$$%%%%%%%!!!!!!AAAAAAAAAAAAAAAAAAAA"
+
+print("string1:", string1)
+print(runLengthEncoding(string1))
 print(" ")
-string2 = "abc"
-key2 = 0
-print(F"String2: {string2}")
-print(F"key2: {key2}")
-print("after:", caesarCipherEncryptor(string2, key2))
+print("string2:", string2)
+print(runLengthEncoding(string2))
 print(" ")
-string3 = "abc"
-key3 = 3
-print(F"string3: {string3}")
-print(F"key3: {key1}")
-print("after:", caesarCipherEncryptor(string3, key3))
+print("string3:", string3)
+print(runLengthEncoding(string3))
+print(" ")
+print("string4:", string4)
+print(runLengthEncoding(string4))
+print(" ")
+
+
+# _recursion
+# _iteration
 print(" ")
